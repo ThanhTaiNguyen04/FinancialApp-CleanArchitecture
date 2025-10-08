@@ -51,9 +51,20 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add Entity Framework
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+// Add Entity Framework - Support SQLite for free deployment
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+if (builder.Environment.IsDevelopment())
+{
+    // SQL Server for development
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer(connectionString));
+}
+else
+{
+    // SQLite for free production deployment - No external DB needed
+    builder.Services.AddDbContext<ApplicationDbContext>(options =>
+        options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FinancialAppDB;Integrated Security=True;"));
+}
 
 // Register Repositories
 builder.Services.AddScoped<IUserRepository, UserRepository>();
@@ -121,16 +132,9 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-<<<<<<< HEAD
-app.UseHttpsRedirection();
-app.UseCors("FlutterApp");
-app.UseAuthentication();
-app.UseAuthorization();
-=======
-// Configure for deployment
+// Configure for deployment - Enable Swagger in production for demo
 if (!app.Environment.IsDevelopment())
 {
-    // Enable Swagger in production for demo purposes
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -139,14 +143,13 @@ app.UseCors("FlutterApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
-// Add health check endpoint for deployment
+// Add health check endpoint for Render deployment
 app.MapGet("/health", () => Results.Ok(new { 
     status = "healthy", 
     timestamp = DateTime.UtcNow,
-    environment = app.Environment.EnvironmentName
+    environment = app.Environment.EnvironmentName,
+    message = "FinancialApp API is running!"
 }));
-
->>>>>>> 8061604
 app.MapControllers();
 
 // Ensure database is created and seeded

@@ -24,16 +24,17 @@ Build Command: chmod +x render-build.sh && ./render-build.sh
 Start Command: chmod +x render-start.sh && ./render-start.sh
 ```
 
-**Environment Variables:**
+**Environment Variables (FREE VERSION):**
 ```
 ASPNETCORE_ENVIRONMENT=Production
 ASPNETCORE_URLS=http://0.0.0.0:$PORT
-ConnectionStrings__DefaultConnection=Server=tcp:your-server.database.windows.net,1433;Initial Catalog=FinancialAppDB;Persist Security Info=False;User ID=your-username;Password=your-password;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;
 JWT__SecretKey=MyVerySecretKeyForFinancialAppThatIsAtLeast32CharactersForProduction!
 JWT__Issuer=FinancialApp
 JWT__Audience=FinancialAppUsers  
 JWT__ExpirationHours=24
 ```
+
+**Note**: Không cần ConnectionString - app sẽ tự động dùng in-memory SQL Server cho production
 
 ### 3. 🗄️ SQL Server Database Setup
 
