@@ -2,9 +2,10 @@
   "name": "financialapp-api",
   "version": "1.0.0",
   "description": "Financial App API - .NET Core Backend",
+  "license": "MIT",
   "scripts": {
-    "build": "chmod +x render-build.sh && ./render-build.sh",
-    "start": "chmod +x render-start.sh && ./render-start.sh"
+    "build": "bash render-build.sh",
+    "start": "bash render-start.sh"
   },
   "engines": {
     "node": ">=18.0.0"

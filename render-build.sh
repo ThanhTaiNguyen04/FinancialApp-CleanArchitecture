@@ -1,30 +1,39 @@
 #!/bin/bash
-# Render Deploy Script for .NET Core with SQL Server
+# Render Build Script for .NET Core
 
-echo "Starting .NET Core deployment on Render..."
+set -e  # Exit on any error
 
-# Install .NET SDK if not available
-if ! command -v dotnet &> /dev/null; then
-    echo "Installing .NET SDK..."
-    wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-    dpkg -i packages-microsoft-prod.deb
-    apt-get update
-    apt-get install -y apt-transport-https dotnet-sdk-8.0
-fi
+echo "==> Starting .NET Core build on Render..."
 
-# Navigate to project directory
+# Install .NET SDK
+echo "==> Installing .NET 8.0 SDK..."
+wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+sudo apt-get update
+sudo apt-get install -y apt-transport-https dotnet-sdk-8.0
+
+# Verify .NET installation
+echo "==> Verifying .NET installation..."
+dotnet --version
+
+# Navigate to presentation project
+echo "==> Navigating to FinancialApp.Presentation..."
 cd FinancialApp.Presentation
 
 # Restore packages
-echo "Restoring .NET packages..."
-dotnet restore
+echo "==> Restoring NuGet packages..."
+dotnet restore --verbosity normal
 
 # Build the application
-echo "Building application..."
-dotnet build --configuration Release --no-restore
+echo "==> Building application..."
+dotnet build --configuration Release --no-restore --verbosity normal
 
 # Publish the application
-echo "Publishing application..."
-dotnet publish --configuration Release --output ./publish --no-build
+echo "==> Publishing application..."
+dotnet publish --configuration Release --output ./publish --no-build --verbosity normal
 
-echo "Deployment completed successfully!"
+# Verify publish directory
+echo "==> Verifying publish directory..."
+ls -la ./publish/
+
+echo "==> Build completed successfully!"
