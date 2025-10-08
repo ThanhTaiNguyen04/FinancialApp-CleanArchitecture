@@ -1,16 +1,17 @@
 #!/bin/bash
-# Render Build Script for .NET Core
+# Render Build Script for .NET Core (No sudo required)
 
 set -e  # Exit on any error
 
 echo "==> Starting .NET Core build on Render..."
 
-# Install .NET SDK
+# Install .NET SDK using install script (no sudo needed)
 echo "==> Installing .NET 8.0 SDK..."
-wget -q https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
-sudo dpkg -i packages-microsoft-prod.deb
-sudo apt-get update
-sudo apt-get install -y apt-transport-https dotnet-sdk-8.0
+curl -sSL https://dot.net/v1/dotnet-install.sh | bash /dev/stdin --channel 8.0 --install-dir ~/.dotnet
+
+# Add .NET to PATH
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$PATH:$HOME/.dotnet"
 
 # Verify .NET installation
 echo "==> Verifying .NET installation..."

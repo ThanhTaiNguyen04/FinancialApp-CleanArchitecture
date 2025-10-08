@@ -5,6 +5,10 @@ set -e  # Exit on any error
 
 echo "==> Starting .NET Core application..."
 
+# Add .NET to PATH
+export DOTNET_ROOT="$HOME/.dotnet"
+export PATH="$PATH:$HOME/.dotnet"
+
 # Verify .NET runtime
 echo "==> Verifying .NET runtime..."
 dotnet --version || echo "Warning: .NET runtime not found in PATH"
