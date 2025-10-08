@@ -121,10 +121,32 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+<<<<<<< HEAD
 app.UseHttpsRedirection();
 app.UseCors("FlutterApp");
 app.UseAuthentication();
 app.UseAuthorization();
+=======
+// Configure for deployment
+if (!app.Environment.IsDevelopment())
+{
+    // Enable Swagger in production for demo purposes
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseCors("FlutterApp");
+app.UseAuthentication();
+app.UseAuthorization();
+
+// Add health check endpoint for deployment
+app.MapGet("/health", () => Results.Ok(new { 
+    status = "healthy", 
+    timestamp = DateTime.UtcNow,
+    environment = app.Environment.EnvironmentName
+}));
+
+>>>>>>> 8061604
 app.MapControllers();
 
 // Ensure database is created and seeded

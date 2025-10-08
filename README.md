@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+# FinancialApp-CleanArchitecture
+=======
+>>>>>>> 8061604
 # FinancialApp - Clean Architecture
 
 Dự án FinancialApp được xây dựng theo kiến trúc Clean Architecture với 4 projects riêng biệt.
@@ -142,4 +148,9 @@ HTTP Request → Controller → Service → Repository → Database
 
 ---
 
+<<<<<<< HEAD
 🎉 **Dự án đã sẵn sàng cho development và production!**
+=======
+🎉 **Dự án đã sẵn sàng cho development và production!**
+>>>>>>> 2b2192e (feat: Fix data isolation and implement secure transaction API - Add [Authorize] attribute to TransactionsController - Fix GetAllTransactions to only return current user's data - Add JWT token validation and user ID extraction - Implement security checks for all CRUD operations - Add comprehensive logging for debugging and audit - Update port configuration to 50255 for mobile app compatibility)
+>>>>>>> 8061604
