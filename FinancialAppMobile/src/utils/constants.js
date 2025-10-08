@@ -1,6 +1,6 @@
 export const API_BASE_URL = __DEV__ 
   ? 'http://10.0.2.2:50255'  // Android emulator URL để access localhost
-  : 'https://your-production-api.com';
+  : 'https://financialapp-api.onrender.com';
 
 // Fallback URLs - chỉ dùng 10.0.2.2 cho Android emulator
 export const API_FALLBACK_URLS = [

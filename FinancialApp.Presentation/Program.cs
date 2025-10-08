@@ -51,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add Entity Framework - Support SQLite for free deployment
+// Add Entity Framework - Support In-Memory DB for free deployment
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (builder.Environment.IsDevelopment())
 {
@@ -61,9 +61,9 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    // SQLite for free production deployment - No external DB needed
+    // In-Memory Database for free production deployment - No external DB needed
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=FinancialAppDB;Integrated Security=True;"));
+        options.UseInMemoryDatabase("FinancialAppDB"));
 }
 
 // Register Repositories
