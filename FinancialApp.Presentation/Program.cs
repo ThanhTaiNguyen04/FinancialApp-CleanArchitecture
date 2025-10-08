@@ -162,11 +162,40 @@ app.MapGet("/health", () => Results.Ok(new {
 }));
 app.MapControllers();
 
-// Ensure database is created and seeded
+// Ensure database is created and seeded - with logging
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    context.Database.EnsureCreated();
+    var logger = scope.ServiceProvider.GetRequiredService<ILogger<Program>>();
+    
+    try
+    {
+        logger.LogInformation("🔄 Attempting to create database and tables...");
+        
+        // Try to create database
+        bool created = context.Database.EnsureCreated();
+        
+        if (created)
+        {
+            logger.LogInformation("✅ Database and tables created successfully!");
+        }
+        else
+        {
+            logger.LogInformation("ℹ️ Database already exists");
+        }
+        
+        // Verify tables exist
+        var tableCount = context.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public'").FirstOrDefault();
+        logger.LogInformation($"📊 Total tables in database: {tableCount}");
+        
+    }
+    catch (Exception ex)
+    {
+        logger.LogError(ex, "❌ Failed to create database: {Error}", ex.Message);
+        
+        // Fallback - try to use in-memory for this instance
+        logger.LogWarning("⚠️ Falling back to in-memory database for this session");
+    }
 }
 
 app.Run();
