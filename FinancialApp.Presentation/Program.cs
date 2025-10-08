@@ -51,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add Entity Framework - Support In-Memory DB for free deployment
+// Add Entity Framework - Support PostgreSQL for Railway deployment
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (builder.Environment.IsDevelopment())
 {
@@ -61,9 +61,19 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    // In-Memory Database for free production deployment - No external DB needed
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseInMemoryDatabase("FinancialAppDB"));
+    // PostgreSQL for Railway production deployment
+    var postgresConnection = Environment.GetEnvironmentVariable("DATABASE_URL");
+    if (!string.IsNullOrEmpty(postgresConnection))
+    {
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(postgresConnection));
+    }
+    else
+    {
+        // Fallback to In-Memory if no PostgreSQL
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseInMemoryDatabase("FinancialAppDB"));
+    }
 }
 
 // Register Repositories
