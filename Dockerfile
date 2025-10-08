@@ -1,4 +1,4 @@
-# Alternative Dockerfile approach for Render deployment
+# Dockerfile for .NET 8.0 deployment on Render
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
