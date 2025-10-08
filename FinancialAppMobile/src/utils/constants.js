@@ -1,6 +1,13 @@
 // Railway production URL - Lightning fast! ⚡
 export const API_BASE_URL = 'https://financialapp-cleanarchitecture-production.up.railway.app';
 
+// API Configuration for Railway (handles cold start)
+export const API_CONFIG = {
+  timeout: 60000, // 60 seconds for cold start
+  retries: 3,
+  retryDelay: 2000 // 2 seconds between retries
+};
+
 // Original logic (commented for now)
 // export const API_BASE_URL = __DEV__ 
 //   ? 'http://10.0.2.2:50255'  // Android emulator URL để access localhost  

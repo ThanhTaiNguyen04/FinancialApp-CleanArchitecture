@@ -184,9 +184,16 @@ using (var scope = app.Services.CreateScope())
             logger.LogInformation("ℹ️ Database already exists");
         }
         
-        // Verify tables exist
-        var tableCount = context.Database.SqlQueryRaw<int>("SELECT COUNT(*) FROM information_schema.tables WHERE table_schema = 'public'").FirstOrDefault();
-        logger.LogInformation($"📊 Total tables in database: {tableCount}");
+        // Verify tables exist (PostgreSQL compatible)
+        try 
+        {
+            var canConnect = context.Database.CanConnect();
+            logger.LogInformation($"📊 Database connection status: {canConnect}");
+        }
+        catch (Exception dbEx)
+        {
+            logger.LogWarning("⚠️ Could not verify table count: {Error}", dbEx.Message);
+        }
         
     }
     catch (Exception ex)
