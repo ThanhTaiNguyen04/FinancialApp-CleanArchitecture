@@ -172,8 +172,15 @@ using (var scope = app.Services.CreateScope())
     {
         logger.LogInformation("🔄 Attempting to create database and tables...");
         
-        // Try to create database
+        // Try to create database - force migration
         bool created = context.Database.EnsureCreated();
+        
+        // If EnsureCreated fails, try manual migration
+        if (!created) 
+        {
+            logger.LogWarning("⚠️ EnsureCreated returned false, trying migrations...");
+            context.Database.Migrate();
+        }
         
         if (created)
         {
