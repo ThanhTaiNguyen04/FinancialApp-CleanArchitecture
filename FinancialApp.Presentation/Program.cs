@@ -61,16 +61,25 @@ if (builder.Environment.IsDevelopment())
 }
 else
 {
-    // PostgreSQL for Railway production deployment
+    // Check for different database options
     var postgresConnection = Environment.GetEnvironmentVariable("DATABASE_URL");
-    if (!string.IsNullOrEmpty(postgresConnection))
+    var sqlServerConnection = Environment.GetEnvironmentVariable("SQL_SERVER_CONNECTION");
+    
+    if (!string.IsNullOrEmpty(sqlServerConnection))
     {
+        // SQL Server for production (Azure SQL or custom)
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(sqlServerConnection));
+    }
+    else if (!string.IsNullOrEmpty(postgresConnection))
+    {
+        // PostgreSQL for Railway
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(postgresConnection));
     }
     else
     {
-        // Fallback to In-Memory if no PostgreSQL
+        // Fallback to In-Memory
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseInMemoryDatabase("FinancialAppDB"));
     }
@@ -172,23 +181,39 @@ using (var scope = app.Services.CreateScope())
     {
         logger.LogInformation("🔄 Attempting to create database and tables...");
         
-        // Try to create database - force migration
-        bool created = context.Database.EnsureCreated();
+        // Check if using existing SQL Server database
+        var isExistingDatabase = !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("SQL_SERVER_CONNECTION"));
         
-        // If EnsureCreated fails, try manual migration
-        if (!created) 
+        if (isExistingDatabase)
         {
-            logger.LogWarning("⚠️ EnsureCreated returned false, trying migrations...");
-            context.Database.Migrate();
-        }
-        
-        if (created)
-        {
-            logger.LogInformation("✅ Database and tables created successfully!");
+            logger.LogInformation("🔗 Using existing SQL Server database - skipping table creation");
+            
+            // Verify connection to existing database
+            bool canConnect = context.Database.CanConnect();
+            logger.LogInformation($"📊 SQL Server connection status: {canConnect}");
         }
         else
         {
-            logger.LogInformation("ℹ️ Database already exists");
+            // Create tables for new database
+            bool created = context.Database.EnsureCreated();
+            
+            if (created)
+            {
+                logger.LogInformation("✅ Database and tables created successfully!");
+            }
+            else
+            {
+                logger.LogWarning("⚠️ EnsureCreated returned false, trying migrations...");
+                try
+                {
+                    context.Database.Migrate();
+                    logger.LogInformation("✅ Database migration completed!");
+                }
+                catch (Exception migrationEx)
+                {
+                    logger.LogError(migrationEx, "❌ Migration failed: {Error}", migrationEx.Message);
+                }
+            }
         }
         
         // Verify tables exist (PostgreSQL compatible)
