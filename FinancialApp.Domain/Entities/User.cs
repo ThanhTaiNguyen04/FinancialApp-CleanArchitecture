@@ -31,6 +31,17 @@ public class User
     [Column(TypeName = "decimal(18,2)")]
     public decimal AvailableBalance { get; set; }
     
+    [Required]
+    [StringLength(50)]
+    public string Role { get; set; } = "User";
+    
+    public bool IsPremium { get; set; } = false;
+    public DateTime? PremiumExpiry { get; set; }
+    
+    [Required]
+    [StringLength(20)]
+    public string SubscriptionType { get; set; } = "Free";
+    
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
     

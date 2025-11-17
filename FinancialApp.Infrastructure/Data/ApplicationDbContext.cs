@@ -16,6 +16,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Category> Categories { get; set; }
     public DbSet<Budget> Budgets { get; set; }
     public DbSet<SavingGoal> SavingGoals { get; set; }
+    public DbSet<ChatMessage> ChatMessages { get; set; }
+    public DbSet<PremiumRequest> PremiumRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
