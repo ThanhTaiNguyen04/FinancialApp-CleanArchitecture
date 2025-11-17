@@ -1,0 +1,17 @@
+# Dockerfile for SQL Server on Railway
+FROM mcr.microsoft.com/mssql/server:2019-latest
+
+# Set environment variables
+ENV ACCEPT_EULA=Y
+ENV MSSQL_SA_PASSWORD=FinancialApp123!
+ENV MSSQL_PID=Express
+
+# Expose port
+EXPOSE 1433
+
+# Copy database backup and restore script
+COPY backup-restore.sql /docker-entrypoint-initdb.d/
+COPY FinancialAppDb.bak /tmp/
+
+# Start SQL Server
+CMD ["/opt/mssql/bin/sqlservr"]
