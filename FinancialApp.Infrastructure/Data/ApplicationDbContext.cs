@@ -68,6 +68,34 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => new { e.FromUserId, e.TransferDate });
         });
 
+        // Configure PremiumRequest entity
+        modelBuilder.Entity<PremiumRequest>(entity =>
+        {
+            entity.HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(d => d.ApprovedByUser)
+                .WithMany()
+                .HasForeignKey(d => d.ApprovedBy)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            entity.HasIndex(e => new { e.UserId, e.RequestDate });
+            entity.HasIndex(e => e.Status);
+        });
+
+        // Configure ChatMessage entity
+        modelBuilder.Entity<ChatMessage>(entity =>
+        {
+            entity.HasOne(d => d.User)
+                .WithMany()
+                .HasForeignKey(d => d.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasIndex(e => e.UserId);
+        });
+
         // Seed data
         SeedData(modelBuilder);
     }
