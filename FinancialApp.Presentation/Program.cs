@@ -105,6 +105,9 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+// Add HttpClient for ChatController
+builder.Services.AddHttpClient();
+
 // Configure JWT Authentication
 var jwtSecretKey = builder.Configuration["JWT:SecretKey"] ?? "MyVerySecretKeyForFinancialAppThatIsAtLeast32Characters!";
 var key = Encoding.ASCII.GetBytes(jwtSecretKey);
