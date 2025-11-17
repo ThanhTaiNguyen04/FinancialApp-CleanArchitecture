@@ -1,7 +1,7 @@
-// Railway production URL - Lightning fast! ⚡
-export const API_BASE_URL = 'https://financialapp-cleanarchitecture-production.up.railway.app';
+// Render.com production URL - FREE tier deployment for demo! 🚀
+export const API_BASE_URL = 'https://financialapp-cleanarchitecture.onrender.com';
 
-// API Configuration for Railway (handles cold start)
+// API Configuration (handles cold start on free tier)
 export const API_CONFIG = {
   timeout: 60000, // 60 seconds for cold start
   retries: 3,
