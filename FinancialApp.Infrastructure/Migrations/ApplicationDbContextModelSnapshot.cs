@@ -61,44 +61,6 @@ namespace FinancialApp.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Budgets");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            BudgetAmount = 2000000m,
-                            CategoryId = 2,
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Month = 9,
-                            SpentAmount = 455789m,
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            Id = 2,
-                            BudgetAmount = 3500000m,
-                            CategoryId = 3,
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Month = 9,
-                            SpentAmount = 3000000m,
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1,
-                            Year = 2025
-                        },
-                        new
-                        {
-                            Id = 3,
-                            BudgetAmount = 1000000m,
-                            CategoryId = 4,
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Month = 9,
-                            SpentAmount = 243789m,
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1,
-                            Year = 2025
-                        });
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.Category", b =>
@@ -138,58 +100,6 @@ namespace FinancialApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ColorCode = "#4CAF50",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            IconName = "salary",
-                            IsActive = true,
-                            Name = "Lương",
-                            Type = "income"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ColorCode = "#FF9800",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            IconName = "shopping",
-                            IsActive = true,
-                            Name = "Đi chợ",
-                            Type = "expense"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ColorCode = "#2196F3",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            IconName = "home",
-                            IsActive = true,
-                            Name = "Thuê nhà",
-                            Type = "expense"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            ColorCode = "#F44336",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            IconName = "medical",
-                            IsActive = true,
-                            Name = "Y tế",
-                            Type = "expense"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            ColorCode = "#9C27B0",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            IconName = "travel",
-                            IsActive = true,
-                            Name = "Du lịch",
-                            Type = "expense"
-                        });
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.ChatMessage", b =>
@@ -271,41 +181,6 @@ namespace FinancialApp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Contacts");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AvatarUrl = "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "catherine@email.com",
-                            FullName = "Catherine Johnson",
-                            IsRecent = true,
-                            Phone = "+1234567891",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            AvatarUrl = "https://images.pexels.com/photos/697509/pexels-photo-697509.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "allan@email.com",
-                            FullName = "Allan Smith",
-                            IsRecent = true,
-                            Phone = "+1234567892",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            AvatarUrl = "https://images.pexels.com/photos/2748091/pexels-photo-2748091.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "kimberly@email.com",
-                            FullName = "Kimberly Brown",
-                            IsRecent = true,
-                            Phone = "+1234567893",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.PremiumRequest", b =>
@@ -417,53 +292,6 @@ namespace FinancialApp.Infrastructure.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("SavingGoals");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            ColorCode = "#4CAF50",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            CurrentAmount = 2300000m,
-                            Description = "Tiết kiệm cho việc học",
-                            IconName = "education",
-                            Name = "Giáo dục",
-                            Status = "active",
-                            TargetAmount = 5000000m,
-                            TargetDate = new DateTime(2026, 3, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            ColorCode = "#FF9800",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            CurrentAmount = 5600000m,
-                            Description = "Tiết kiệm mua nhà",
-                            IconName = "house",
-                            Name = "Mua nhà",
-                            Status = "active",
-                            TargetAmount = 47000000m,
-                            TargetDate = new DateTime(2027, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            ColorCode = "#2196F3",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            CurrentAmount = 800000m,
-                            Description = "Chuyến du lịch Hàn Quốc",
-                            IconName = "travel",
-                            Name = "Du lịch",
-                            Status = "active",
-                            TargetAmount = 2200000m,
-                            TargetDate = new DateTime(2026, 1, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.Transaction", b =>
@@ -515,52 +343,6 @@ namespace FinancialApp.Infrastructure.Migrations
                     b.HasIndex("UserId", "TransactionDate");
 
                     b.ToTable("Transactions");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Amount = 16000000m,
-                            Category = "Lương",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Lương tháng 9",
-                            TransactionDate = new DateTime(2025, 9, 21, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Type = "income",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Amount = 455789m,
-                            Category = "Đi chợ",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Mua sắm hàng tuần",
-                            TransactionDate = new DateTime(2025, 9, 23, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Type = "expense",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Amount = 3000000m,
-                            Category = "Thuê nhà",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Tiền thuê nhà tháng 9",
-                            TransactionDate = new DateTime(2025, 9, 24, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Type = "expense",
-                            UserId = 1
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Amount = 243789m,
-                            Category = "Y tế",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Description = "Khám bệnh và thuốc",
-                            TransactionDate = new DateTime(2025, 9, 25, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Type = "expense",
-                            UserId = 1
-                        });
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.Transfer", b =>
@@ -676,23 +458,6 @@ namespace FinancialApp.Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            AvailableBalance = 5320.50m,
-                            AvatarUrl = "https://images.pexels.com/photos/2167673/pexels-photo-2167673.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260",
-                            CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
-                            Email = "christopher.summers@email.com",
-                            FullName = "Christopher Summers",
-                            IsPremium = false,
-                            PasswordHash = "",
-                            Phone = "+1234567890",
-                            Role = "User",
-                            SubscriptionType = "Free",
-                            UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc)
-                        });
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.Budget", b =>

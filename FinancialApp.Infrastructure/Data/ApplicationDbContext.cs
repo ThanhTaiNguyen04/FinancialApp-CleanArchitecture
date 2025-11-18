@@ -96,8 +96,8 @@ public class ApplicationDbContext : DbContext
             entity.HasIndex(e => e.UserId);
         });
 
-        // Seed data
-        SeedData(modelBuilder);
+        // Seed data - Temporarily disabled for PostgreSQL migration
+        // SeedData(modelBuilder);
     }
 
     private void SeedData(ModelBuilder modelBuilder)
