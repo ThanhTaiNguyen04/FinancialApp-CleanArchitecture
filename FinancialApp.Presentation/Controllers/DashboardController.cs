@@ -15,6 +15,13 @@ public class DashboardController : ControllerBase
         _dashboardService = dashboardService;
     }
 
+    [HttpGet("stats")]
+    public async Task<ActionResult<AdminStatsDto>> GetAdminStats()
+    {
+        var stats = await _dashboardService.GetAdminStatsAsync();
+        return Ok(stats);
+    }
+
     [HttpGet("user/{userId}")]
     public async Task<ActionResult<DashboardDto>> GetDashboardData(int userId)
     {

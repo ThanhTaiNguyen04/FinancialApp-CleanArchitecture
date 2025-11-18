@@ -1,6 +1,8 @@
 using FinancialApp.Application.DTOs;
 using FinancialApp.Application.Interfaces;
 using FinancialApp.Domain.Interfaces;
+using FinancialApp.Infrastructure.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinancialApp.Application.Services;
 
@@ -10,17 +12,20 @@ public class DashboardService : IDashboardService
     private readonly ITransactionRepository _transactionRepository;
     private readonly IBudgetService _budgetService;
     private readonly ISavingGoalRepository _savingGoalRepository;
+    private readonly ApplicationDbContext _context;
 
     public DashboardService(
         IUserService userService,
         ITransactionRepository transactionRepository,
         IBudgetService budgetService,
-        ISavingGoalRepository savingGoalRepository)
+        ISavingGoalRepository savingGoalRepository,
+        ApplicationDbContext context)
     {
         _userService = userService;
         _transactionRepository = transactionRepository;
         _budgetService = budgetService;
         _savingGoalRepository = savingGoalRepository;
+        _context = context;
     }
 
     public async Task<DashboardDto> GetDashboardDataAsync(int userId)
@@ -212,6 +217,27 @@ public class DashboardService : IDashboardService
             "monthly" => transactions.Where(t => t.TransactionDate.Month == now.Month && t.TransactionDate.Year == now.Year),
             "yearly" => transactions.Where(t => t.TransactionDate.Year == now.Year),
             _ => transactions
+        };
+    }
+
+    public async Task<AdminStatsDto> GetAdminStatsAsync()
+    {
+        var totalUsers = await _context.Users.CountAsync();
+        var premiumUsers = await _context.Users.CountAsync(u => u.IsPremium);
+        var totalTransactions = await _context.Transactions.CountAsync();
+        var totalRevenue = await _context.PremiumRequests
+            .Where(p => p.Status == "Approved")
+            .SumAsync(p => p.Amount);
+        var pendingRequests = await _context.PremiumRequests.CountAsync(p => p.Status == "Pending");
+
+        return new AdminStatsDto
+        {
+            TotalUsers = totalUsers,
+            PremiumUsers = premiumUsers,
+            FreeUsers = totalUsers - premiumUsers,
+            TotalTransactions = totalTransactions,
+            TotalRevenue = totalRevenue,
+            PendingPremiumRequests = pendingRequests
         };
     }
 }
