@@ -59,6 +59,7 @@ public class AuthService : IAuthService
                 Phone = user.Phone,
                 AvatarUrl = user.AvatarUrl,
                 AvailableBalance = user.AvailableBalance,
+                Role = user.Role,
                 CreatedAt = user.CreatedAt
             }
         };
@@ -87,6 +88,7 @@ public class AuthService : IAuthService
                 Phone = user.Phone,
                 AvatarUrl = user.AvatarUrl,
                 AvailableBalance = user.AvailableBalance,
+                Role = user.Role,
                 CreatedAt = user.CreatedAt
             }
         };
@@ -121,6 +123,7 @@ public class AuthService : IAuthService
             Phone = user.Phone,
             AvatarUrl = user.AvatarUrl,
             AvailableBalance = user.AvailableBalance,
+            Role = user.Role,
             CreatedAt = user.CreatedAt
         };
     }
@@ -145,6 +148,7 @@ public class AuthService : IAuthService
             Phone = user.Phone,
             AvatarUrl = user.AvatarUrl,
             AvailableBalance = user.AvailableBalance,
+            Role = user.Role,
             CreatedAt = user.CreatedAt
         };
     }
