@@ -1,0 +1,6 @@
+@echo off
+echo 🚀 KHỞI ĐỘNG LẠI BACKEND VỚI MODEL MỚI...
+cd /d "D:\EXE201\FinancialApp-CleanArchitecture"
+echo ✅ Đã sửa model từ llama-3.1-70b-versatile sang llama3-70b-8192
+echo 🔄 Đang khởi động backend...
+dotnet run --urls "http://localhost:50255"

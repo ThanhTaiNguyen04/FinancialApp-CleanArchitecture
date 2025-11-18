@@ -46,17 +46,22 @@ public class ChatController : ControllerBase
                 return NotFound(new { message = "User not found" });
             }
 
-            // Check Premium status - temporarily disabled for testing
-            /*
+            // Check Premium status - STRICT CHECK
             bool isPremium = user.SubscriptionType == "Premium" && 
                            user.PremiumExpiry.HasValue && 
                            user.PremiumExpiry.Value > DateTime.UtcNow;
 
+            _logger.LogInformation($"User {userId} Premium Check: SubscriptionType='{user.SubscriptionType}', PremiumExpiry={user.PremiumExpiry}, IsPremium={isPremium}");
+
             if (!isPremium)
             {
-                return Forbid("This feature is only available for Premium users");
+                return StatusCode(403, new { 
+                    message = "🔒 AI Financial Assistant chỉ dành cho người dùng Premium. Nâng cấp ngay để sử dụng!", 
+                    code = "PREMIUM_REQUIRED",
+                    userSubscription = user.SubscriptionType,
+                    premiumExpiry = user.PremiumExpiry
+                });
             }
-            */
 
             // Process the message
             var response = await ProcessUserMessage(userId, request.Message);

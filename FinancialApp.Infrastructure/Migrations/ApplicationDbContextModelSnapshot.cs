@@ -17,7 +17,7 @@ namespace FinancialApp.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.9")
+                .HasAnnotation("ProductVersion", "8.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -192,6 +192,39 @@ namespace FinancialApp.Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FinancialApp.Domain.Entities.ChatMessage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MessageType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Response")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("ChatMessages");
+                });
+
             modelBuilder.Entity("FinancialApp.Domain.Entities.Contact", b =>
                 {
                     b.Property<int>("Id")
@@ -273,6 +306,59 @@ namespace FinancialApp.Infrastructure.Migrations
                             Phone = "+1234567893",
                             UserId = 1
                         });
+                });
+
+            modelBuilder.Entity("FinancialApp.Domain.Entities.PremiumRequest", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("ApprovedBy")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("ApprovedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("RejectionReason")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("RequestDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TransactionReference")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApprovedBy");
+
+                    b.HasIndex("Status");
+
+                    b.HasIndex("UserId", "RequestDate");
+
+                    b.ToTable("PremiumRequests");
                 });
 
             modelBuilder.Entity("FinancialApp.Domain.Entities.SavingGoal", b =>
@@ -555,12 +641,28 @@ namespace FinancialApp.Infrastructure.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
+                    b.Property<bool>("IsPremium")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<DateTime?>("PremiumExpiry")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("SubscriptionType")
                         .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
@@ -584,8 +686,11 @@ namespace FinancialApp.Infrastructure.Migrations
                             CreatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc),
                             Email = "christopher.summers@email.com",
                             FullName = "Christopher Summers",
+                            IsPremium = false,
                             PasswordHash = "",
                             Phone = "+1234567890",
+                            Role = "User",
+                            SubscriptionType = "Free",
                             UpdatedAt = new DateTime(2025, 9, 26, 10, 0, 0, 0, DateTimeKind.Utc)
                         });
                 });
@@ -609,6 +714,17 @@ namespace FinancialApp.Infrastructure.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("FinancialApp.Domain.Entities.ChatMessage", b =>
+                {
+                    b.HasOne("FinancialApp.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("FinancialApp.Domain.Entities.Contact", b =>
                 {
                     b.HasOne("FinancialApp.Domain.Entities.User", "User")
@@ -616,6 +732,24 @@ namespace FinancialApp.Infrastructure.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("FinancialApp.Domain.Entities.PremiumRequest", b =>
+                {
+                    b.HasOne("FinancialApp.Domain.Entities.User", "ApprovedByUser")
+                        .WithMany()
+                        .HasForeignKey("ApprovedBy")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("FinancialApp.Domain.Entities.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApprovedByUser");
 
                     b.Navigation("User");
                 });
