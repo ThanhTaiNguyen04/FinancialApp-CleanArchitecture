@@ -1,8 +1,6 @@
 using FinancialApp.Application.DTOs;
 using FinancialApp.Application.Interfaces;
 using FinancialApp.Domain.Interfaces;
-using FinancialApp.Infrastructure.Data;
-using Microsoft.EntityFrameworkCore;
 
 namespace FinancialApp.Application.Services;
 
@@ -12,20 +10,23 @@ public class DashboardService : IDashboardService
     private readonly ITransactionRepository _transactionRepository;
     private readonly IBudgetService _budgetService;
     private readonly ISavingGoalRepository _savingGoalRepository;
-    private readonly ApplicationDbContext _context;
+    private readonly IUserRepository _userRepository;
+    private readonly IPremiumRequestRepository _premiumRequestRepository;
 
     public DashboardService(
         IUserService userService,
         ITransactionRepository transactionRepository,
         IBudgetService budgetService,
         ISavingGoalRepository savingGoalRepository,
-        ApplicationDbContext context)
+        IUserRepository userRepository,
+        IPremiumRequestRepository premiumRequestRepository)
     {
         _userService = userService;
         _transactionRepository = transactionRepository;
         _budgetService = budgetService;
         _savingGoalRepository = savingGoalRepository;
-        _context = context;
+        _userRepository = userRepository;
+        _premiumRequestRepository = premiumRequestRepository;
     }
 
     public async Task<DashboardDto> GetDashboardDataAsync(int userId)
@@ -222,13 +223,18 @@ public class DashboardService : IDashboardService
 
     public async Task<AdminStatsDto> GetAdminStatsAsync()
     {
-        var totalUsers = await _context.Users.CountAsync();
-        var premiumUsers = await _context.Users.CountAsync(u => u.IsPremium);
-        var totalTransactions = await _context.Transactions.CountAsync();
-        var totalRevenue = await _context.PremiumRequests
+        var allUsers = await _userRepository.GetAllAsync();
+        var totalUsers = allUsers.Count();
+        var premiumUsers = allUsers.Count(u => u.IsPremium);
+        
+        var allTransactions = await _transactionRepository.GetAllAsync();
+        var totalTransactions = allTransactions.Count();
+        
+        var allPremiumRequests = await _premiumRequestRepository.GetAllAsync();
+        var totalRevenue = allPremiumRequests
             .Where(p => p.Status == "Approved")
-            .SumAsync(p => p.Amount);
-        var pendingRequests = await _context.PremiumRequests.CountAsync(p => p.Status == "Pending");
+            .Sum(p => p.Amount);
+        var pendingRequests = allPremiumRequests.Count(p => p.Status == "Pending");
 
         return new AdminStatsDto
         {
