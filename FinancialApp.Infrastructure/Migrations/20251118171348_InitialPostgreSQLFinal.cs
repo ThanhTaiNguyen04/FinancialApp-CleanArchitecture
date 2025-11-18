@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace FinancialApp.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialPostgreSQLClean : Migration
+    public partial class InitialPostgreSQLFinal : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

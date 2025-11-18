@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinancialApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251118165743_InitialPostgreSQLClean")]
-    partial class InitialPostgreSQLClean
+    [Migration("20251118171348_InitialPostgreSQLFinal")]
+    partial class InitialPostgreSQLFinal
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -209,26 +209,8 @@ using (var scope = app.Services.CreateScope())
         }
         else
         {
-            // Create tables for new database
-            bool created = context.Database.EnsureCreated();
-            
-            if (created)
-            {
-                logger.LogInformation("✅ Database and tables created successfully!");
-            }
-            else
-            {
-                logger.LogWarning("⚠️ EnsureCreated returned false, trying migrations...");
-                try
-                {
-                    context.Database.Migrate();
-                    logger.LogInformation("✅ Database migration completed!");
-                }
-                catch (Exception migrationEx)
-                {
-                    logger.LogError(migrationEx, "❌ Migration failed: {Error}", migrationEx.Message);
-                }
-            }
+            // Skip EnsureCreated and migrations - use existing database schema
+            logger.LogInformation("✅ Using existing database schema on Supabase");
         }
         
         // Verify tables exist (PostgreSQL compatible)

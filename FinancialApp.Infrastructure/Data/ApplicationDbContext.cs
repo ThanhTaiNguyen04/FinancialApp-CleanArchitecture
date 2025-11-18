@@ -22,6 +22,22 @@ public class ApplicationDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        
+        // Remove all SQL Server-specific column type annotations
+        foreach (var entity in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entity.GetProperties())
+            {
+                var annotations = property.GetAnnotations()
+                    .Where(a => a.Name == "Relational:ColumnType")
+                    .ToList();
+                
+                foreach (var annotation in annotations)
+                {
+                    property.RemoveAnnotation(annotation.Name);
+                }
+            }
+        }
 
         // Configure User entity
         modelBuilder.Entity<User>(entity =>
