@@ -103,6 +103,7 @@ builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
 builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddScoped<ISavingGoalRepository, SavingGoalRepository>();
+builder.Services.AddScoped<IPremiumRequestRepository, PremiumRequestRepository>();
 
 // Register Application Services
 builder.Services.AddScoped<IUserService, UserService>();
