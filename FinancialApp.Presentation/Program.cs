@@ -51,7 +51,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// Add Entity Framework - Support PostgreSQL for Railway deployment
+// Add Entity Framework - Support both SQL Server and PostgreSQL
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 if (builder.Environment.IsDevelopment())
 {
@@ -73,9 +73,21 @@ else
     }
     else if (!string.IsNullOrEmpty(postgresConnection))
     {
-        // PostgreSQL for Railway
+        // PostgreSQL from DATABASE_URL environment variable (Railway)
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
             options.UseNpgsql(postgresConnection));
+    }
+    else if (connectionString != null && connectionString.Contains("Host="))
+    {
+        // PostgreSQL from appsettings (Supabase)
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseNpgsql(connectionString));
+    }
+    else if (connectionString != null)
+    {
+        // SQL Server from appsettings (Somee)
+        builder.Services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(connectionString));
     }
     else
     {
