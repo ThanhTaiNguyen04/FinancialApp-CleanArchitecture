@@ -9,6 +9,9 @@ public class UserDto
     public string AvatarUrl { get; set; } = string.Empty;
     public decimal AvailableBalance { get; set; }
     public string Role { get; set; } = string.Empty;
+    public bool IsPremium { get; set; }
+    public string? SubscriptionType { get; set; }
+    public DateTime? PremiumExpiry { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 }

@@ -89,6 +89,9 @@ public class AuthService : IAuthService
                 AvatarUrl = user.AvatarUrl,
                 AvailableBalance = user.AvailableBalance,
                 Role = user.Role,
+                IsPremium = user.IsPremium,
+                SubscriptionType = user.SubscriptionType,
+                PremiumExpiry = user.PremiumExpiry,
                 CreatedAt = user.CreatedAt
             }
         };
@@ -124,6 +127,9 @@ public class AuthService : IAuthService
             AvatarUrl = user.AvatarUrl,
             AvailableBalance = user.AvailableBalance,
             Role = user.Role,
+            IsPremium = user.IsPremium,
+            SubscriptionType = user.SubscriptionType,
+            PremiumExpiry = user.PremiumExpiry,
             CreatedAt = user.CreatedAt
         };
     }
@@ -149,6 +155,9 @@ public class AuthService : IAuthService
             AvatarUrl = user.AvatarUrl,
             AvailableBalance = user.AvailableBalance,
             Role = user.Role,
+            IsPremium = user.IsPremium,
+            SubscriptionType = user.SubscriptionType,
+            PremiumExpiry = user.PremiumExpiry,
             CreatedAt = user.CreatedAt
         };
     }
