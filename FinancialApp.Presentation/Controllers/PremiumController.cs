@@ -204,9 +204,23 @@ public class PremiumController : ControllerBase
             var adminId = int.Parse(Request.Headers["X-User-Id"].ToString());
 
             var admin = await _context.Users.FindAsync(adminId);
-            if (admin == null || !admin.Role.Equals("admin", StringComparison.OrdinalIgnoreCase))
+            
+            // Log for debugging
+            _logger.LogInformation($"Approve request - Admin ID: {adminId}, Admin Role: '{admin?.Role}', Email: '{admin?.Email}'");
+            
+            if (admin == null)
             {
-                return Unauthorized(new { message = "Không có quyền" });
+                return Unauthorized(new { message = "Không tìm thấy admin user" });
+            }
+            
+            // Check if user is admin (case-insensitive, support both "admin" and "Admin")
+            bool isAdmin = !string.IsNullOrEmpty(admin.Role) && 
+                          admin.Role.Equals("admin", StringComparison.OrdinalIgnoreCase);
+            
+            if (!isAdmin)
+            {
+                _logger.LogWarning($"User {adminId} ({admin.Email}) attempted to approve but role is '{admin.Role}'");
+                return Unauthorized(new { message = $"Không có quyền. Role hiện tại: '{admin.Role}'" });
             }
 
             var request = await _context.PremiumRequests
