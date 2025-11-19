@@ -882,7 +882,7 @@ Bạn đang muốn mua gì? Mình tư vấn có nên mua không! 🤔";
 
             var payload = new
             {
-                model = "llama3-8b-8192",
+                model = "llama-3.3-70b-versatile",
                 messages = new[]
                 {
                     new { role = "system", content = systemPrompt },

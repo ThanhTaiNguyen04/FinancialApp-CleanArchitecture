@@ -104,6 +104,10 @@ public class UserService : IUserService
             Phone = user.Phone,
             AvatarUrl = user.AvatarUrl,
             AvailableBalance = user.AvailableBalance,
+            Role = user.Role,
+            IsPremium = user.IsPremium,
+            SubscriptionType = user.SubscriptionType,
+            PremiumExpiry = user.PremiumExpiry,
             CreatedAt = user.CreatedAt,
             UpdatedAt = user.UpdatedAt
         };
