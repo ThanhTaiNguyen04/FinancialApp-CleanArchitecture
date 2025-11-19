@@ -773,7 +773,7 @@ Bạn đang muốn mua gì? Mình tư vấn có nên mua không! 🤔";
 
     private async Task<DetailedFinancialSummaryDto> GetUserFinancialContext(int userId)
     {
-        var currentMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+        var currentMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0, DateTimeKind.Utc);
 
         // Get transactions this month
         var transactions = await _context.Transactions

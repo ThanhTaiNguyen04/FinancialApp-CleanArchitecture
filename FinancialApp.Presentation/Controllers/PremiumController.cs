@@ -440,7 +440,7 @@ public class PremiumController : ControllerBase
             var activePremiumUsers = await _context.Users
                 .CountAsync(u => u.IsPremium && u.PremiumExpiry > DateTime.UtcNow);
 
-            var firstDayOfMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1);
+            var firstDayOfMonth = new DateTime(DateTime.UtcNow.Year, DateTime.UtcNow.Month, 1, 0, 0, 0, DateTimeKind.Utc);
             var requestsThisMonth = await _context.PremiumRequests
                 .CountAsync(pr => pr.RequestDate >= firstDayOfMonth);
             var revenueThisMonth = await _context.PremiumRequests
